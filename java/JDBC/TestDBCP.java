@@ -56,7 +56,7 @@ public class TestDBCP {
                     }
                 }
             }finally {
-                TestC3p0.close(rs,stmt,con);
+                JDBCUtils.close(rs,stmt,con);
             }
         };
 

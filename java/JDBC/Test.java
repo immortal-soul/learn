@@ -1,13 +1,6 @@
 package ImmortalSoul.JDBC;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
-
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Savepoint;
+import java.sql.*;
 
 
 public class Test {
@@ -19,9 +12,10 @@ public class Test {
      * database_name:数据库名
      * 例子：jdbc:mysql://localhost:3306/imooc
      */
-    private static final String URL = "jdbc:mysql://localhost:3306/test";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    public static final String URL = "jdbc:mysql://localhost:3306/test";
+    public static final String USER = "root";
+    public static final String PASSWORD = "root";
+    public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -35,9 +29,9 @@ public class Test {
         Connection conn = null;
         try {
             //加载驱动
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(DRIVER_CLASS);
             //连接数据库
-            conn = (Connection) DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -45,9 +39,9 @@ public class Test {
         }
 
         if (conn!=null) {
-            test(conn);
+//            test(conn);
 //            test1(conn);
-//            test2(conn);
+            test2(conn);
         }
     }
 
@@ -64,7 +58,7 @@ public class Test {
         try {
             //手动提交，不能在自动提交的情况下使用回滚否则报错
             conn.setAutoCommit(false);
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1,1000);
             pstmt.setInt(2,1);
@@ -83,7 +77,7 @@ public class Test {
 
             //如果金额小于零则回滚到保存点
             sql = "SELECT money FROM learnJava WHERE id = ?";
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,1);
             rs = pstmt.executeQuery();
             rs.next();
@@ -118,7 +112,7 @@ public class Test {
             //取消自动提交
             conn.setAutoCommit(false);
             String sql = "INSERT INTO learnJava (name,money,teacher,student) VALUES (?,?,?,?)";
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,"1");
             pstmt.setInt(2,2000);
             pstmt.setString(3,"谭老师");
@@ -160,9 +154,10 @@ public class Test {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = (Statement) conn.createStatement();
+            stmt = conn.createStatement();
             String sql = "SELECT * FROM learnJava";
-//            String sql1 = "UPDATE learnJava Set money = 100 where id = 12";
+            //executeQuery()不能执行查询之外语句，否成报错
+            String sql1 = "UPDATE learnJava Set money = 100 where id = 12";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 System.out.println(" id :" + rs.getInt(ID) + " name :" + rs.getString(NAME)

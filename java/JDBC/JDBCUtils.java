@@ -1,22 +1,14 @@
 package ImmortalSoul.JDBC;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
+import java.sql.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-/**
- * Created by tansibin on 2018/3/27.
- */
 public class JDBCUtils {
 
     public static void close(Connection con){
         close(null,null,null,con);
     }
 
-    public static void close(ResultSet rs, Statement stmt ,Connection con){
+    public static void close(ResultSet rs, Statement stmt , Connection con){
         close(rs,stmt,null,con);
     }
 

@@ -8,22 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
-/**
- * Created by tansibin on 2018/3/27.
- */
 public class TestC3p0 {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/test";
-
-    public static final String ID = "id";
 
     public static void main(String[] args) {
 
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setJdbcUrl(URL+"?user=root&password=root");
+        dataSource.setJdbcUrl(Test.URL+"?user=root&password=root");
         try {
-            dataSource.setDriverClass("com.mysql.jdbc.Driver");
+            dataSource.setDriverClass(Test.DRIVER_CLASS);
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
@@ -45,7 +38,7 @@ public class TestC3p0 {
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
-                    System.out.println(" id :" + rs.getInt(ID));
+                    System.out.println(" id :" + rs.getInt("id"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -57,7 +50,7 @@ public class TestC3p0 {
                     }
                 }
             }finally {
-                close(rs,stmt,conn);
+                JDBCUtils.close(rs,stmt,conn);
             }
         };
 
@@ -76,30 +69,5 @@ public class TestC3p0 {
         six.start();
 
     }
-
-    public static void close(ResultSet rs , Statement stmt , Connection connection){
-        if (rs!=null){
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (stmt!=null){
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (connection!=null){
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
 }
