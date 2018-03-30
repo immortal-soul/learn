@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        //window.onload事件在整个html 文档加载完成后触发
+        window.onload = function () {
+
+            var body = document.body;
+
+
+            //通过id获取节点
+            var id = document.getElementById("city");
+            //通过name属性获取nodeList，
+            var name = document.getElementsByName("city");
+            //通过标签名获取nodeList
+            var ul = document.getElementsByTagName("ul");
+            //查找指定节点，返回第一个
+            var node = document.querySelector("ul");
+            //查找所有指定节点，返回所有指定节点
+            var nodes = document.querySelectorAll("li");
+
+            //创建元素节点，还需要添加到html
+            var elem = document.createElement("p")
+            elem.id = "p";
+            elem.innerHTML = "元素节点p";
+            body.appendChild(elem);
+
+            //创建文本节点，同样需要添加到html
+            var text = document.createTextNode("文本节点");
+            body.appendChild(text);
+
+            //克隆一个节点，传入一个boolean值，true 克隆子节点  false 不克隆
+            var clone = elem.cloneNode(true);
+            clone.id = "test2";
+            body.appendChild(clone);
+
+            //创建一个文档碎片，用来储存临时节点，大量操作DOM时能提高效率
+            var fragment = document.createDocumentFragment();
+            var li;
+            for (var i = 0; i < 100; i++) {
+                li = document.createElement("p");
+                li.innerHTML = i;
+                fragment.appendChild(li);
+            }
+            body.appendChild(fragment);
+
+            var one = document.createElement("p");
+            one.id = "TestP1";
+            one.innerHTML = "Hello P1 !!!";
+            var two = document.createElement("p");
+            two.id = "TestP2";
+            two.innerHTML = "Hello P2 !!!";
+            //添加节点到末尾
+            body.appendChild(one);
+            //添加节点到指定节点前
+            //第一个参数必须要
+            //第二个参数可有可无，当它为undefined或者null时，表示添加到末尾
+            body.insertBefore(two, one);
+            //移除指定节点
+            // del指向被删除节点的引用，它仍然在内存中，可以被使用
+            // 如果被删除节点不是指定节点子节点，将会报错
+            var del = body.removeChild(two);
+            alert(del.id);
+            //节点替换，新节点替换老节点
+            body.replaceChild(two, one);
+
+            var li = body.querySelector("li");
+            //parentNode返回父节点，Element的父节点可能是Element，Document或DocumentFragment；
+            li.parentNode;
+            //parentElement返回父节点，父节点只能是element否则返回null
+            li.parentElement;
+
+            var ul = body.querySelector("ul");
+            //返回子节点，IE9以下不支持
+            ul.children;
+            //返回子节点列表，子节点包括 文本节点和注释节点
+            ul.childNodes;
+            //返回第一个子节点
+            ul.firstChild;
+            //返回最后一个子节点
+            ul.lastChild;
+
+            var li = body.querySelector("li");
+            //返回上一个节点，可能是文本节点和注释节点
+            li.previousSibling;
+            //返回下一个节点，可能是文本节点和注释节点
+            li.nextSibling;
+            //返回上一个元素节点，IE9以下不支持
+            li.previousElementSibling;
+            //返回下一个元素节点，IE9以下不支持
+            li.nextElementSibling;
+
+            var city = document.getElementById("city");
+            alert(city.getAttribute("name"));
+            //setAttribute 设置指定属性，第二个参数是指定属性的值
+            city.setAttribute("name","TestCity");
+            //getAttributeNode 获取指定属性的值
+            alert(city.getAttribute("name"));
+
+            //直接修改
+            body.style.backgroundColor = "blue";
+
+            //动态添加样式
+            var style = document.createElement("style");
+            style.innerHTML = "body{background:red}";
+            document.head.appendChild(style);
+
+
+
+        }
+    </script>
+</head>
+<body>
+
+<ul id="city" name="city">
+    <li id="bj" name="BeiJing">北京</li>
+    <li id="sh" name="ShangHai">上海</li>
+    <li>广州</li>
+    <li>深圳</li>
+</ul>
+<ul id="test"></ul>
+
+
+</body>
+</html>
