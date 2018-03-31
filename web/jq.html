@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        //ready 等同于 onload  表示DOM加载完毕后触发事件
+        $(document).ready(function () {
+            //选取所有ul元素
+            $(" ul");
+            //选取所有 class值为city 的ul元素
+            $("ul.city");
+            //选取所有 id值为city 的ul元素
+            $("ul#city");
+            //选取所有 带name属性的元素
+            $("[name]");
+            //选取所有name属性值为BeiJing 的元素
+            $("[name='BeiJing']");
+            //选取所有name属性值不为BeiJing的元素
+            $("[name !='BeiJing']");
+            //选取所有name属性值 以 ai 结尾的元素
+            $("[name $= 'ai']");
+
+            var p = $("p#test");
+            //text()  设置或者返回元素内容
+            p.text("test test");
+//            alert(p.text());
+
+            //html() 设置或者返回元素集合中的html内容
+            p.html("test <b>test</b>");
+//            alert(p.html());
+
+            //attr() 设置或者返回元素属性和值
+            p.attr("name","test");
+            p.attr({
+                "name":"test test",
+                "id":"test test"
+            });
+//            alert(p.attr("name"));
+//            alert(p.attr("id"));
+
+            //val() 设置或返回 输入字段的值
+            $("#btn1").click(function () {
+                $("input").val("123213");
+//                alert($("input").val());
+            });
+
+            //创建元素
+            var $h1 = $("<h1></h1>");
+            //创建文本
+            var $h2 = $("<h2>hello world !!!</h2>");
+            $("body").append($h1);
+            $("body").append($h2);
+
+            //clone() 克隆 参数是否复制元素所有事件处理
+            var $h3 = $h2.clone(true);
+            $("body").append($h3);
+
+
+            var ul = $("ul#add");
+            var li = $("li#center");
+            var $li1 = $("<li>1</li>");
+            //append() 添加元素到末尾
+            ul.append($li1);
+            var $li2 = $("<li>2</li>");
+            //prepend() 添加元素到开头
+            ul.prepend($li2);
+            var $li3 = $("<li>3</li>");
+            //before() 添加元素到指定元素前面
+            li.before($li3);
+            var $li4 = $("<li>4</li>");
+            //after() 添加元素到指定元素后面
+            li.after($li4);
+
+            var ul = $("ul#add");
+            //empty() 删除指定元素的所有子元素
+            $("#btn2").click(function () {
+                ul.empty();
+            });
+            //remove() 移除指定元素
+            $("#btn3").click(function () {
+                ul.remove();
+            });
+            //remove(value) 移除指定属性值的指定元素  例如下面代码就是移除id=center的li元素
+            $("#btn4").click(function () {
+                $(" li").remove("#center");
+            });
+        });
+    </script>
+</head>
+<body>
+
+<ul id="city" name="city" class="city">
+    <li id="bj" name="BeiJing">北京</li>
+    <li id="sh" name="ShangHai">上海</li>
+    <li>广州</li>
+    <li>深圳</li>
+</ul>
+<p id="test" name="hello P !!">
+    hello <b>world</b> !!!
+</p>
+<input type="text" value="test">
+<button id="btn1">显示value值</button>
+<ul id="add">
+    123
+    <li id="center">中心</li>
+</ul>
+<button id="btn2">清空子元素</button>
+<button id="btn3">删除元素</button>
+<button id="btn4">过滤删除元素</button>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        var URL = "http://api.iotio.org/app/version";
+        $(function () {
+            var request;
+            //判断浏览器是否支持标准的XMLHttpRequest
+            if (window.XMLHttpRequest) {
+                request = new XMLHttpRequest();
+            } else {
+                request = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+
+            request.onreadystatechange = function () {
+                if (request.readyState == 4) {
+                    if (request.status == 200) {
+                        alert(request.responseText);
+                    } else {
+                        alert("error"+request.error);
+                    }
+                } else {
+                    //http还在继续
+                }
+            };
+            request.open("GET", URL);
+            request.send();
+
+
+            $("h1").load(URL,function (response,status,xhr) {
+                if (status == "success"){
+                    alert("加载成功");
+                }
+                if (status == "error"){
+                    alert("Error:" + status + xhr.error);
+                }
+            });
+
+
+            $.get(URL,function (data,status) {
+                if (status == "success"){
+                    alert(data);
+                }
+                if (status == "error"){
+                    alert("Error:" + status + xhr.error);
+                }
+            });
+
+
+            $.post(URL,function (data,status) {
+                if (status == "success"){
+                    alert(data);
+                }
+                if (status == "error"){
+                    alert("Error:" + status + xhr.error);
+                }
+            });
+
+
+            $.ajax({
+                type:"GET",
+                url:URL,
+                success:function (data,status) {
+                    alert(data);
+                },
+                error:function () {
+                    alert("请求错误");
+                }
+            });
+
+
+            var json = {
+                "phone":"15216175013",
+                "code":"110321",
+                "ini":"321123"
+            }
+            var jsonStr = JSON.stringify(json);
+            $.ajax({
+                type:"POST",
+                url:"http://api.iotio.org/login/verify",
+                data:jsonStr,
+                success:function (data,status) {
+                    alert(JSON.stringify(data));
+                },
+                error:function () {
+                    alert("请求错误");
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<h1>hello</h1>
+</body>
+</html>
