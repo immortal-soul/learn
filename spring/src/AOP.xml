@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--aop-->
+    <bean id="timeHandle" class="aop.TimeHandle"/>
+    <bean id="logger" class="aop.Logger"/>
+    <bean id="helloWorld1" class="bean.HelloWorld"/>
+    <bean id="helloWorld2" class="bean.HelloWorld"/>
+    <aop:config>
+        <!--声明一个切面-->
+        <!--id 切面名称-->
+        <!--order 切面执行顺序-->
+        <aop:aspect id="time" ref="timeHandle" order="2">
+            <!--声明一个切入点-->
+            <!--id 切入点名称-->
+            <!--切入点切入Hello类下所有的方法 expression="execution(* bean.HelloWorld.*(..)) -->
+            <!--切入指定的sayhello()方法 expression="execution(* bean.HelloWorld.sayHello(..))-->
+            <!--切入say开头的方法 expression="execution(* bean.HelloWorld.say*(..))-->
+            <aop:pointcut id="addTime" expression="execution(* bean.HelloWorld.*(..))"/>
+            <!--指定方法执行前执行的方法-->
+            <!--method 需要执行的方法-->
+            <!--pointcut-ref 指定切入点-->
+            <aop:before method="beforeAdvice" pointcut-ref="addTime"/>
+            <!--指定方法执行后执行的方法-->
+            <aop:after method="afterAdvice" pointcut-ref="addTime"/>
+            <aop:after-returning method="afterReturningAdvice" pointcut-ref="addTime"/>
+            <aop:after-throwing method="afterThrowingAdvice" pointcut-ref="addTime"/>
+        </aop:aspect>
+        <aop:aspect id="log" ref="logger" order="1">
+            <aop:pointcut id="addLog" expression="execution(* bean.HelloWorld.destory(..))"/>
+            <aop:before method="beforeAdvice" pointcut-ref="addLog"/>
+            <aop:after method="afterAdvice" pointcut-ref="addLog"/>
+            <aop:after-returning method="afterReturningAdvice" pointcut-ref="addLog"/>
+            <aop:after-throwing method="afterThrowingAdvice" pointcut-ref="addLog"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

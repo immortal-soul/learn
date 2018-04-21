@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+
+    <!--bean属性-->
+    <!--id 名字-->
+    <!--class 类-->
+    <!--scope 作用域-->
+    <!--lazy-init 是否在第一次访问时创建 true是 false否-->
+    <bean id="helloWorld" class="bean.HelloWorld" scope="prototype" lazy-init="false">
+        <property name="name" value="Hello World"/>
+    </bean>
+
+    <!--初始化和销毁bean的回调方法-->
+    <bean class="bean.InitBean"/>
+
+    <bean id="parent" abstract="true">
+        <property name="name" value="parent"/>
+        <property name="age" value="55"/>
+        <property name="sex" value="男"/>
+    </bean>
+
+    <!--bean继承-->
+    <bean id="child" class="bean.Child" parent="parent">
+        <property name="name" value="child"/>
+        <property name="age" value="18"/>
+        <property name="hobby" value="computer games"/>
+    </bean>
+
+    <!--依赖注入-->
+    <bean id="one" class="bean.TestDIOne">
+        <constructor-arg index="0" ref="helloWorld"/>
+    </bean>
+
+    <bean id="two" class="bean.TestDITwo">
+        <property name="helloWorld" ref="helloWorld"/>
+        <property name="testDIOne" ref="one"/>
+    </bean>
+
+    <!--注入内部bean-->
+    <bean id="internalBean" class="bean.InternalBean">
+        <property name="helloWorld">
+            <bean class="bean.HelloWorld">
+                <property name="name" value="hello beans"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--注入集合-->
+    <bean id="collection" class="bean.TestCollection">
+        <property name="set">
+            <set>
+                <value>China</value>
+                <value>USA</value>
+                <value>Russia</value>
+            </set>
+        </property>
+        <property name="list">
+            <list>
+                <value>east</value>
+                <value>south</value>
+                <value>west</value>
+                <value>north</value>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="Tony" value="male"/>
+                <entry key="Rose" value="female"/>
+            </map>
+        </property>
+        <property name="prop">
+            <props>
+                <prop key="上古卷轴">role playing games</prop>
+                <prop key="反恐精英">first personal shooting</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--自动装配byName-->
+    <bean id="testByName" class="bean.TestByName" autowire="byName">
+        <property name="name" value="hello TestByName"/>
+    </bean>
+
+    <!--自动装配byType-->
+    <bean id="testByType" class="bean.TestByType" autowire="byType">
+        <property name="name" value="hello testByType"/>
+    </bean>
+
+    <!--自动装配constructor-->
+    <bean id="testConstructor" class="bean.TestConstructor" autowire="constructor">
+        <property name="name" value="hello TestConstructor"/>
+    </bean>
+
+    <context:annotation-config/>
+
+    <bean id="children" class="bean.Child" parent="parent">
+        <property name="hobby" value="role playing games"/>
+        <property name="age" value="22"/>
+        <property name="name" value="勇敢不迷茫"/>
+    </bean>
+
+    <bean id="testAnnotation" class="bean.TestAnnotation" >
+        <property name="name" value="testAnnotatioin"/>
+    </bean>
+
+    <bean id="testAnnotationTwo" class="bean.TestAnnotationTwo"/>
+
+
+
+</beans>
